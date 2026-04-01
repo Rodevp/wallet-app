@@ -13,26 +13,30 @@ model Users {
   password  String   @db.VarChar(254)
   status    String   @db.VarChar(10)
   createdAt DateTime @default(now())
+  wallets   Wallets?
 }
 
 model Wallets {
   id                    Int      @id @default(autoincrement())
-  user_id               Int
+  user_id               Int      @unique
   address               String   @db.VarChar(254)
   encrypted_private_key String   @db.VarChar(254)
   createdAt             DateTime @default(now())
+
+  user Users @relation(fields: [user_id], references: [id])
 }
 
 model Transactions {
-  id             Int      @id @default(autoincrement())
-  type           String   @db.VarChar(10)
-  status         String   @db.VarChar(10)
-  from_wallet_id String   @db.VarChar(254)
-  to_wallet_id   String   @db.VarChar(254)
-  amount         Decimal  @db.Decimal(18, 8)
-  asset          String   @db.VarChar(10)
-  tx_hash        String   @db.VarChar(68)
-  createdAt      DateTime @default(now())
+  id                  Int             @id @default(autoincrement())
+  type                String          @db.VarChar(10)
+  status              String          @db.VarChar(10)
+  from_wallet_address String          @db.VarChar(254)
+  to_wallet_address   String          @db.VarChar(254)
+  amount              Decimal         @db.Decimal(18, 8)
+  asset               String          @db.VarChar(10)
+  tx_hash             String?         @db.VarChar(66)
+  createdAt           DateTime        @default(now())
+  ledgerEntries       LedgerEntries[]
 }
 
 model LedgerEntries {
@@ -43,4 +47,6 @@ model LedgerEntries {
   asset        String   @db.VarChar(10)
   reference_id Int
   createdAt    DateTime @default(now())
+
+  transaction Transactions @relation(fields: [reference_id], references: [id])
 }

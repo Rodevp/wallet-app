@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(100)
+  password  String   @db.VarChar(254)
+  status    String   @db.VarChar(10)
+  createdAt DateTime @default(now())
+}
+
+model Wallets {
+  id                    Int      @id @default(autoincrement())
+  user_id               Int
+  address               String   @db.VarChar(254)
+  encrypted_private_key String   @db.VarChar(254)
+  createdAt             DateTime @default(now())
+}
+
+model Transactions {
+  id             Int      @id @default(autoincrement())
+  type           String   @db.VarChar(10)
+  status         String   @db.VarChar(10)
+  from_wallet_id String   @db.VarChar(254)
+  to_wallet_id   String   @db.VarChar(254)
+  amount         Decimal  @db.Decimal(18, 8)
+  asset          String   @db.VarChar(10)
+  tx_hash        String   @db.VarChar(68)
+  createdAt      DateTime @default(now())
+}
+
+model LedgerEntries {
+  id           Int      @id @default(autoincrement())
+  wallet_id    Int
+  amount       Decimal  @db.Decimal(18, 8)
+  type         String   @db.VarChar(10)
+  asset        String   @db.VarChar(10)
+  reference_id Int
+  createdAt    DateTime @default(now())
+}

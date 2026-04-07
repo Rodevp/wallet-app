@@ -17,6 +17,22 @@ class WalletRepository {
 
         return await this.walletRepo.save(wallet);
     };
+
+    getWalletByUserId = async (userId: number) => {
+        try {
+            return await this.walletRepo.findOneBy({ user_id: userId });
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    getWalletById = async (id: number) => {
+        try {
+            return await this.walletRepo.findOneBy({ id });
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 export default WalletRepository;

@@ -1,6 +1,6 @@
 import { Response, Request } from "express";
 import { IAuthRepository } from "./types";
-
+import AuthRepository from "./repository";
 
 class AuthService {
 
@@ -30,3 +30,7 @@ class AuthService {
         }
     }
 }
+
+const authService = new AuthService(new AuthRepository());
+
+export default authService;

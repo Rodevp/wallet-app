@@ -19,20 +19,6 @@ class AuthRepository implements IAuthRepository {
 
         }
     }
-
-    deleteUser = async (id: string) => {
-        try {
-
-        } catch (error) {
-
-        }
-    }
-
-    updateUser = async (id: string, data: any) => {
-        try {
-
-        } catch (error) {
-
-        }
-    }
 }
+
+export default AuthRepository;

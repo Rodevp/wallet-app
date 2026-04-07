@@ -10,8 +10,6 @@ import { ethers } from "ethers";
 import type { Response, Request } from "express";
 import type { IAuthRepository } from "./types";
 
-
-
 class AuthService {
 
     constructor(private readonly authRepository: IAuthRepository) { }

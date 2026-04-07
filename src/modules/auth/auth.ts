@@ -9,10 +9,14 @@ import { ethers } from "ethers";
 
 import type { Response, Request } from "express";
 import type { IAuthRepository } from "./types";
+import WalletRepository from "../wallet/repository";
 
 class AuthService {
 
-    constructor(private readonly authRepository: IAuthRepository) { }
+    constructor(
+        private readonly authRepository: IAuthRepository,
+        private readonly walletRepository: WalletRepository
+    ) { }
 
     login = async (req: Request, res: Response) => {
         try {
@@ -64,7 +68,7 @@ class AuthService {
 
             const wallet = ethers.Wallet.createRandom();
 
-            await this.authRepository.createWallet({
+            await this.walletRepository.createWallet({
                 userId: user.id,
                 address: wallet.address,
                 privateKey: wallet.privateKey,
@@ -102,6 +106,6 @@ class AuthService {
     }
 }
 
-const authService = new AuthService(new AuthRepository());
+const authService = new AuthService(new AuthRepository(), new WalletRepository());
 
 export default authService;

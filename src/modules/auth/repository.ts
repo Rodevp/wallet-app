@@ -20,7 +20,7 @@ class AuthRepository implements IAuthRepository {
         }
     }
 
-    createUser = async (data: { email: string; password: string }) => {
+    createUser = async (data: Pick<User, "email" | "password">) => {
         try {
             const user = this.userRepo.create({
                 email: data.email,

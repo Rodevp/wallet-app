@@ -1,5 +1,5 @@
 export type DataEntrie = {
-    wallet_id: number;
+    wallet_address: string;
     amount: number;
     type: 'deposit' | 'withdrawal' | 'transfer';
     asset: 'USDT' | 'USDC' | 'ETH';

@@ -14,7 +14,7 @@ export class LedgerEntry {
     id!: number;
 
     @Column()
-    wallet_id!: number;
+    wallet_address!: string;
 
     @Column("decimal", { precision: 18, scale: 8 })
     amount!: number;
@@ -32,7 +32,7 @@ export class LedgerEntry {
     createdAt!: Date;
 
     @ManyToOne(() => Wallet, (wallet) => wallet.ledgerEntries)
-    @JoinColumn({ name: "wallet_id" })
+    @JoinColumn({ name: "wallet_address" })
     wallet!: Wallet;
 
     @ManyToOne(() => Transaction, (tx) => tx.ledgerEntries)

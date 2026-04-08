@@ -1,7 +1,7 @@
 import { DataEntrie, ILedgerRepository } from "./types";
 import LedgerRepository from "./repository";
 
-class LedgerService {
+export class LedgerService {
 
     constructor(
         private readonly ledgerRepository: ILedgerRepository

@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { IWalletRepository } from "./types";
+import type { IWallet, IWalletRepository } from "./types";
 
 import WalletRepository from "./repository";
 
@@ -10,7 +10,11 @@ class WalletService {
     createWallet = async (req: Request, res: Response) => {
         try {
             const { userId, address, privateKey } = req.body;
-            const wallet = await this.walletRepository.createWallet({ userId, address, privateKey });
+            const wallet = await this.walletRepository.createWallet({
+                address,
+                encrypted_private_key: privateKey,
+                user_id: userId,
+            });
             return res.status(201).json(wallet);
         } catch (error) {
             return res.status(500).json({ message: "Error creating wallet" });

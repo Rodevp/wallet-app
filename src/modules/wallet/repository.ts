@@ -4,6 +4,8 @@ import { Wallet } from "../../models/wallet";
 class WalletRepository {
     private walletRepo = AppDataSource.getRepository(Wallet);
 
+    constructor() { }
+
     createWallet = async (data: {
         userId: number;
         address: string;

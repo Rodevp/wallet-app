@@ -8,4 +8,5 @@ export type DataEntrie = {
 
 export interface ILedgerRepository {
     createEntries(data: DataEntrie[]): Promise<void>;
+    getBalance(wallet_address: string, asset: string): Promise<number>;
 }

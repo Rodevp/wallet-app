@@ -14,6 +14,15 @@ class LedgerRepository {
         }
     }
 
+    async getBalance(wallet_address: string, asset: string): Promise<number> {
+        const result = await this.ledgerRepository.createQueryBuilder("Ledger")
+            .select("SUM(Ledger.amount)", "balance")
+            .where("ledger.wallet_address = :wallet_address", { wallet_address })
+            .andWhere("ledger.asset = :asset", { asset })
+            .getRawOne();
+        return result.balance || 0;
+    }
+
 }
 
 export default LedgerRepository;

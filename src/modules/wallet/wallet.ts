@@ -1,4 +1,3 @@
-import type { Request, Response } from "express";
 import type { IWalletRepository } from "./types";
 
 import WalletRepository from "./repository";
@@ -7,37 +6,34 @@ class WalletService {
 
     constructor(private readonly walletRepository: IWalletRepository) { }
 
-    createWallet = async (req: Request, res: Response) => {
+    createWallet = async (userId: number, address: string, privateKey: string) => {
         try {
-            const { userId, address, privateKey } = req.body;
             const wallet = await this.walletRepository.createWallet({
                 address,
                 encrypted_private_key: privateKey,
                 user_id: userId,
             });
-            return res.status(201).json(wallet);
+            return wallet;
         } catch (error) {
-            return res.status(500).json({ message: "Error creating wallet" });
+            return { message: "Error creating wallet" };
         }
     };
 
-    getWalletByUserId = async (req: Request, res: Response) => {
+    getWalletByUserId = async (userId: number) => {
         try {
-            const { userId } = req.params;
-            const wallet = await this.walletRepository.getWalletByUserId(Number(userId));
-            return res.status(200).json(wallet);
+            const wallet = await this.walletRepository.getWalletByUserId(userId);
+            return wallet;
         } catch (error) {
-            return res.status(500).json({ message: "Error getting wallet" });
+            return { message: "Error getting wallet" };
         }
     };
 
-    getWalletById = async (req: Request, res: Response) => {
+    getWalletById = async (id: number) => {
         try {
-            const { id } = req.params;
-            const wallet = await this.walletRepository.getWalletById(Number(id));
-            return res.status(200).json(wallet);
+            const wallet = await this.walletRepository.getWalletById(id);
+            return wallet;
         } catch (error) {
-            return res.status(500).json({ message: "Error getting wallet" });
+            return { message: "Error getting wallet" };
         }
     };
 }

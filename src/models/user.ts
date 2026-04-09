@@ -15,6 +15,9 @@ export class User {
     @Column({ default: "active" })
     status!: string;
 
+    @Column({ nullable: true })
+    profile_image!: string;
+
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     createdAt!: Date;
 

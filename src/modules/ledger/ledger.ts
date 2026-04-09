@@ -1,4 +1,3 @@
-import type { Request, Response } from "express";
 import type { DataEntrie, ILedgerRepository } from "./types";
 import LedgerRepository from "./repository";
 
@@ -16,17 +15,16 @@ export class LedgerService {
         }
     }
 
-    getBalance = async (req: Request, res: Response): Promise<any> => {
+    getBalance = async (wallet_address: string, asset: string): Promise<any> => {
         try {
-            const { wallet_address, asset } = req.params;
-            const balance = await this.ledgerRepository.getBalance(wallet_address as string, asset as string);
-            return res.status(200).json({
+            const balance = await this.ledgerRepository.getBalance(wallet_address, asset);
+            return {
                 wallet_address,
                 asset,
                 balance
-            })
+            }
         } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
+            throw error;
         }
     }
 

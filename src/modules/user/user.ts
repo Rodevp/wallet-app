@@ -1,26 +1,23 @@
-import type { Response, Request } from "express";
 import UserRepository from "./repository";
 
 class UserService {
     constructor(private readonly userRepository: UserRepository) { }
 
-    getProfile = async (req: Request, res: Response) => {
-        const { id } = req.params;
+    getProfile = async (id: string) => {
         try {
-            const user = await this.userRepository.findById(id as string);
-            return res.status(200).json(user);
+            const user = await this.userRepository.findById(id);
+            return user;
         } catch (error) {
-            return res.status(500).json({ message: "Internal server error" });
+            throw error;
         }
     }
 
-    update = async (req: Request, res: Response) => {
-        const { id, email, profile_image } = req.body;
+    update = async (id: string, email: string, profile_image: string) => {
         try {
-            const user = await this.userRepository.update(id as string, { email, profile_image });
-            return res.status(200).json(user);
+            const user = await this.userRepository.update(id, { email, profile_image });
+            return user;
         } catch (error) {
-            return res.status(500).json({ message: "Internal server error" });
+            throw error;
         }
     }
 }

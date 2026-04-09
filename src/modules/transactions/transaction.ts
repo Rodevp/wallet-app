@@ -6,7 +6,7 @@ import type { ITransaction, ITransactionRepository } from "./types";
 import { LedgerService } from "../ledger/ledger";
 import LedgerRepository from "../ledger/repository";
 
-class TransactionController {
+class TransactionService {
 
     constructor(
         private readonly transactionRepository: ITransactionRepository,
@@ -156,6 +156,6 @@ class TransactionController {
     }
 }
 
-const transactionController = new TransactionController(new TransactionRepository(), new LedgerService(new LedgerRepository()));
+const transactionService = new TransactionService(new TransactionRepository(), new LedgerService(new LedgerRepository()));
 
-export default transactionController;
+export default transactionService;

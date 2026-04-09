@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { IWallet, IWalletRepository } from "./types";
+import type { IWalletRepository } from "./types";
 
 import WalletRepository from "./repository";
 

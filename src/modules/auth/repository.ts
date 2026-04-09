@@ -5,7 +5,7 @@ import { IAuthRepository } from "./types";
 
 class AuthRepository implements IAuthRepository {
 
-    private userRepo = AppDataSource.getMongoRepository(User);
+    private userRepo = AppDataSource.getRepository(User);
 
     constructor() { }
 

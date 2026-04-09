@@ -1,10 +1,8 @@
 import { TransactionRepository } from "./repository";
-
-
-import type { Response, Request } from "express";
-import type { ITransaction, ITransactionRepository } from "./types";
 import { LedgerService } from "../ledger/ledger";
 import LedgerRepository from "../ledger/repository";
+
+import type { ITransaction, ITransactionRepository, ITransferData } from "./types";
 
 class TransactionService {
 
@@ -13,31 +11,15 @@ class TransactionService {
         private readonly ledgerService: LedgerService
     ) { }
 
-    async transfer(req: Request, res: Response): Promise<any> {
+    async transfer(data: ITransferData) {
 
-        const { from_wallet_address, to_wallet_address, amount, asset } = req.body;
-
-        if (!from_wallet_address || !to_wallet_address) {
-            return res.status(400).json({ error: "Required Wallets" });
-        }
-
-        if (from_wallet_address === to_wallet_address) {
-            return res.status(400).json({ error: "Cannot transfer to yourself" });
-        }
-
-        if (!amount || amount <= 0) {
-            return res.status(400).json({ error: "Invalid Amount" });
-        }
-
-        if (!asset) {
-            return res.status(400).json({ error: "Required Asset" });
-        }
+        const { from_wallet_address, to_wallet_address, amount, asset } = data;
 
         const transaction: ITransaction = {
-            from_wallet_address,
-            to_wallet_address,
+            from_wallet_address: from_wallet_address as string,
+            to_wallet_address: to_wallet_address as string,
             amount: Number(amount),
-            asset: asset.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
+            asset: asset?.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
             type: 'transfer',
             status: 'pending',
             tx_hash: ''
@@ -63,33 +45,20 @@ class TransactionService {
                 }
             ]);
 
-
-            return res.status(201).json(transactionCreated);
+            return transactionCreated;
         } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
+            throw error;
         }
     }
 
-    async deposit(req: Request, res: Response): Promise<any> {
-        const { to_wallet_address, ammount, asset } = req.body;
-
-        if (!to_wallet_address) {
-            return res.status(400).json({ error: "Wallet required" });
-        }
-
-        if (!ammount || ammount <= 0) {
-            return res.status(400).json({ error: "Invalid ammount" });
-        }
-
-        if (!asset) {
-            return res.status(400).json({ error: "Invalid asset" });
-        }
+    async deposit(data: ITransferData) {
+        const { to_wallet_address, amount, asset } = data;
 
         const transaction: ITransaction = {
-            to_wallet_address,
+            to_wallet_address: to_wallet_address as string,
             from_wallet_address: "",
-            amount: Number(ammount),
-            asset: asset.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
+            amount: Number(amount),
+            asset: asset?.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
             type: 'deposit',
             status: 'pending',
             tx_hash: ''
@@ -106,33 +75,21 @@ class TransactionService {
                     asset: transactionCreated.asset
                 }
             ]);
-            return res.status(201).json(transactionCreated);
+            return transactionCreated;
         } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
+            throw error;
         }
 
     }
 
-    async withdraw(req: Request, res: Response): Promise<any> {
-        const { from_wallet_address, amount, asset } = req.body;
-
-        if (!from_wallet_address) {
-            return res.status(400).json({ error: "Wallet required" });
-        }
-
-        if (!amount || amount <= 0) {
-            return res.status(400).json({ error: "Invalid ammount" });
-        }
-
-        if (!asset) {
-            return res.status(400).json({ error: "Invalid asset" });
-        }
+    async withdraw(data: ITransferData) {
+        const { from_wallet_address, amount, asset } = data;
 
         const transaction: ITransaction = {
-            from_wallet_address,
+            from_wallet_address: from_wallet_address as string,
             to_wallet_address: "",
             amount: Number(amount),
-            asset: asset.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
+            asset: asset?.toUpperCase() as 'USDT' | 'USDC' | 'ETH',
             type: 'withdrawal',
             status: 'pending',
             tx_hash: ''
@@ -149,9 +106,9 @@ class TransactionService {
                     asset: transactionCreated.asset
                 }
             ]);
-            return res.status(201).json(transactionCreated);
+            return transactionCreated;
         } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
+            throw error;
         }
     }
 }

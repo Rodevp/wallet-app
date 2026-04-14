@@ -15,7 +15,7 @@ export class LedgerService {
         }
     }
 
-    getBalance = async (wallet_address: string, asset: string): Promise<any> => {
+    getBalance = async (wallet_address: string, asset: string) => {
         try {
             const balance = await this.ledgerRepository.getBalance(wallet_address, asset);
             return {

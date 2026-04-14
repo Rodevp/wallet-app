@@ -11,7 +11,7 @@ class UserRepository {
         return await this.userRepo.findOne({ where: { id: Number(id) }, relations: ["wallet"] });
     }
 
-    async update(id: string, data: Partial<User>): Promise<any> {
+    async update(id: string, data: Partial<User>) {
         return await this.userRepo.update(id, data);
     }
 }

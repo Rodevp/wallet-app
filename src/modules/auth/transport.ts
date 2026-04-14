@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import authService from "./auth";
+import { HTTP_STATUS } from "../../types";
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -21,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
         return res.status(result.statusCode).json({ message: result.message });
 
     } catch (error) {
-        return res.status(500).json({ message: "Error in login" });
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Error in login" });
     }
 }
 
@@ -38,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
         return res.status(result.statusCode).json({ message: result.message });
 
     } catch (error) {
-        return res.status(500).json({ message: "Error in register" });
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Error in register" });
     }
 }
 
@@ -61,6 +62,6 @@ export const refresh = async (req: Request, res: Response) => {
 
         return res.status(result.statusCode).json({ message: result.message });
     } catch (error) {
-        return res.status(500).json({ message: "Error in refresh" });
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ message: "Error in refresh" });
     }
 }

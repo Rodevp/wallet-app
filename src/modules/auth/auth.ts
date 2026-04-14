@@ -9,6 +9,7 @@ import { ethers } from "ethers";
 
 import type { IAuthRepository } from "./types";
 import WalletRepository from "../wallet/repository";
+import { HTTP_STATUS } from "../../types";
 
 class AuthService {
 
@@ -23,18 +24,18 @@ class AuthService {
             const user = await this.authRepository.getUserByEmail(email);
 
             if (!user) {
-                return { message: "User not found", statusCode: 404, error: true };
+                return { message: "User not found", statusCode: HTTP_STATUS.NOT_FOUND, error: true };
             }
 
             const isValid = await comparePassword(password, user.password);
 
             if (!isValid) {
-                return { message: "Invalid credentials", statusCode: 401, error: true };
+                return { message: "Invalid credentials", statusCode: HTTP_STATUS.UNAUTHORIZED, error: true };
             }
 
             const token = await generateToken({ userId: user.id });
 
-            return { message: "Login successful", token, statusCode: 200, error: false };
+            return { message: "Login successful", token, statusCode: HTTP_STATUS.OK, error: false };
 
         } catch (error) {
             throw error;
@@ -45,7 +46,7 @@ class AuthService {
         try {
             const existingUser = await this.authRepository.getUserByEmail(email);
             if (existingUser) {
-                return { message: "User already exists", statusCode: 400, error: true };
+                return { message: "User already exists", statusCode: HTTP_STATUS.BAD_REQUEST, error: true };
             }
 
             const hashedPassword = await hashPassword(password);
@@ -63,7 +64,7 @@ class AuthService {
                 privateKey: wallet.privateKey,
             });
 
-            return { message: "User created successfully", statusCode: 201, error: false };
+            return { message: "User created successfully", statusCode: HTTP_STATUS.CREATED, error: false };
 
         } catch (error) {
             throw error;
@@ -73,16 +74,16 @@ class AuthService {
     refresh = async (token: string) => {
         try {
             if (!token) {
-                return { message: "No token", statusCode: 401, error: true };
+                return { message: "No token", statusCode: HTTP_STATUS.UNAUTHORIZED, error: true };
             }
 
             const decoded: any = await verifyToken(token);
 
             const newToken = await generateToken({ userId: decoded.userId });
 
-            return { message: "Token refreshed", newToken, statusCode: 200, error: false };
+            return { message: "Token refreshed", newToken, statusCode: HTTP_STATUS.OK, error: false };
         } catch (error) {
-            return { message: "Invalid token", statusCode: 401, error: true };
+            return { message: "Invalid token", statusCode: HTTP_STATUS.UNAUTHORIZED, error: true };
         }
     }
 }

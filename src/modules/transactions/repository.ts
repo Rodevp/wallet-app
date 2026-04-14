@@ -6,7 +6,7 @@ export class TransactionRepository {
 
     private readonly transactionRepository = AppDataSource.getRepository(Transaction);
 
-    async create(data: ITransaction): Promise<any> {
+    async create(data: ITransaction) {
         const transaction = this.transactionRepository.create(data);
         return await this.transactionRepository.save(transaction);
     }

@@ -1,10 +1,10 @@
-import type { DataEntrie, ILedgerRepository } from "./types";
+import type { DataEntrie } from "./types";
 import LedgerRepository from "./repository";
 
 export class LedgerService {
 
     constructor(
-        private readonly ledgerRepository: ILedgerRepository
+        private readonly ledgerRepository: LedgerRepository
     ) { }
 
     createEntries = async (data: DataEntrie[]) => {

@@ -6,7 +6,7 @@ class LedgerRepository {
 
     private ledgerRepository = AppDataSource.getRepository(LedgerEntry);
 
-    async createEntries(data: DataEntrie[]): Promise<any> {
+    async createEntries(data: DataEntrie[]) {
         try {
             return await this.ledgerRepository.save(data);
         } catch (error) {
@@ -14,7 +14,7 @@ class LedgerRepository {
         }
     }
 
-    async getBalance(wallet_address: string, asset: string): Promise<number> {
+    async getBalance(wallet_address: string, asset: string) {
         const result = await this.ledgerRepository.createQueryBuilder("Ledger")
             .select("SUM(Ledger.amount)", "balance")
             .where("ledger.wallet_address = :wallet_address", { wallet_address })

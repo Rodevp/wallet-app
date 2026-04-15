@@ -8,3 +8,8 @@ export enum HTTP_STATUS {
     INTERNAL_SERVER_ERROR = 500,
     TOO_MANY_REQUESTS = 429,
 }
+
+export type Activity = {
+    timestamps: number[];
+    lastTargets: string[];
+};

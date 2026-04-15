@@ -1,6 +1,7 @@
 import express from 'express';
 import type { Response, Request } from 'express';
 import AppDataSource from './db';
+import { errorHandler } from './middlewares/errors';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -10,6 +11,8 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
     return res.status(200).json({ message: 'server on' });
 });
+
+app.use(errorHandler);
 
 AppDataSource.initialize()
     .then(() => {

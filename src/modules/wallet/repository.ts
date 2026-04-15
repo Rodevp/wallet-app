@@ -1,5 +1,7 @@
 import AppDataSource from "../../db";
+import { AppError } from "../../error";
 import { Wallet } from "../../models/wallet";
+import { HTTP_STATUS } from "../../types";
 
 class WalletRepository {
     private walletRepo = AppDataSource.getRepository(Wallet);
@@ -24,7 +26,7 @@ class WalletRepository {
         try {
             return await this.walletRepo.findOneBy({ user_id: userId });
         } catch (error) {
-            throw error;
+            throw new AppError("Get wallet by user id failed", HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     };
 
@@ -32,7 +34,7 @@ class WalletRepository {
         try {
             return await this.walletRepo.findOneBy({ id });
         } catch (error) {
-            throw error;
+            throw new AppError("Get wallet by id failed", HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     };
 }

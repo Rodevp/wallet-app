@@ -1,6 +1,8 @@
 import type { IWalletRepository } from "./types";
 
 import WalletRepository from "./repository";
+import { AppError } from "../../error";
+import { HTTP_STATUS } from "../../types";
 
 class WalletService {
 
@@ -15,7 +17,7 @@ class WalletService {
             });
             return wallet;
         } catch (error) {
-            return { message: "Error creating wallet" };
+            throw new AppError("Create wallet failed", HTTP_STATUS.BAD_REQUEST);
         }
     };
 
@@ -24,7 +26,7 @@ class WalletService {
             const wallet = await this.walletRepository.getWalletByUserId(userId);
             return wallet;
         } catch (error) {
-            return { message: "Error getting wallet" };
+            throw new AppError("Get wallet by user id failed", HTTP_STATUS.BAD_REQUEST);
         }
     };
 
@@ -33,7 +35,7 @@ class WalletService {
             const wallet = await this.walletRepository.getWalletById(id);
             return wallet;
         } catch (error) {
-            return { message: "Error getting wallet" };
+            throw new AppError("Get wallet by id failed", HTTP_STATUS.BAD_REQUEST);
         }
     };
 }

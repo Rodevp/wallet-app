@@ -1,3 +1,5 @@
+import { AppError } from "../../error";
+import { HTTP_STATUS } from "../../types";
 import UserRepository from "./repository";
 
 class UserService {
@@ -8,7 +10,7 @@ class UserService {
             const user = await this.userRepository.findById(id);
             return user;
         } catch (error) {
-            throw error;
+            throw new AppError("Get profile failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 
@@ -17,7 +19,7 @@ class UserService {
             const user = await this.userRepository.update(id, { email, profile_image });
             return user;
         } catch (error) {
-            throw error;
+            throw new AppError("Update failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 }

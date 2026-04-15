@@ -1,5 +1,7 @@
 import AppDataSource from "../../db";
+import { AppError } from "../../error";
 import { User } from "../../models/user";
+import { HTTP_STATUS } from "../../types";
 
 import { IAuthRepository } from "./types";
 
@@ -16,7 +18,7 @@ class AuthRepository implements IAuthRepository {
                 relations: ["wallets"],
             });
         } catch (error) {
-            throw error;
+            throw new AppError("Get user failed", HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -29,7 +31,7 @@ class AuthRepository implements IAuthRepository {
             });
             return await this.userRepo.save(user);
         } catch (error) {
-            throw error;
+            throw new AppError("Create user failed", HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     }
 }

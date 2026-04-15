@@ -10,6 +10,7 @@ import { ethers } from "ethers";
 import type { IAuthRepository } from "./types";
 import WalletRepository from "../wallet/repository";
 import { HTTP_STATUS } from "../../types";
+import { AppError } from "../../error";
 
 class AuthService {
 
@@ -38,7 +39,7 @@ class AuthService {
             return { message: "Login successful", token, statusCode: HTTP_STATUS.OK, error: false };
 
         } catch (error) {
-            throw error;
+            throw new AppError("Login failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 
@@ -67,7 +68,7 @@ class AuthService {
             return { message: "User created successfully", statusCode: HTTP_STATUS.CREATED, error: false };
 
         } catch (error) {
-            throw error;
+            throw new AppError("Register failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 

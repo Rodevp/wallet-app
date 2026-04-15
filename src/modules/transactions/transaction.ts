@@ -3,6 +3,8 @@ import { LedgerService } from "../ledger/ledger";
 import LedgerRepository from "../ledger/repository";
 
 import type { ITransaction, ITransactionRepository, ITransferData } from "./types";
+import { HTTP_STATUS } from "../../types";
+import { AppError } from "../../error";
 
 class TransactionService {
 
@@ -47,7 +49,7 @@ class TransactionService {
 
             return transactionCreated;
         } catch (error) {
-            throw error;
+            throw new AppError("Transfer failed", HTTP_STATUS.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -77,7 +79,7 @@ class TransactionService {
             ]);
             return transactionCreated;
         } catch (error) {
-            throw error;
+            throw new AppError("Deposit failed", HTTP_STATUS.BAD_REQUEST);
         }
 
     }
@@ -108,7 +110,7 @@ class TransactionService {
             ]);
             return transactionCreated;
         } catch (error) {
-            throw error;
+            throw new AppError("Withdrawal failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 }

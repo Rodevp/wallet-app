@@ -1,5 +1,7 @@
 import type { DataEntrie } from "./types";
 import LedgerRepository from "./repository";
+import { AppError } from "../../error";
+import { HTTP_STATUS } from "../../types";
 
 export class LedgerService {
 
@@ -11,7 +13,7 @@ export class LedgerService {
         try {
             return await this.ledgerRepository.createEntries(data);
         } catch (error) {
-            throw error;
+            throw new AppError("Create entries failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 
@@ -24,7 +26,7 @@ export class LedgerService {
                 balance
             }
         } catch (error) {
-            throw error;
+            throw new AppError("Get balance failed", HTTP_STATUS.BAD_REQUEST);
         }
     }
 

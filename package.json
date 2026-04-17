@@ -21,8 +21,10 @@
   "homepage": "https://github.com/Rodevp/wallet-app#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "csrf-csrf": "^4.0.3",
     "ethers": "^6.16.0",
     "express": "^5.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",

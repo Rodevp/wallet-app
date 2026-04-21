@@ -8,11 +8,7 @@ import { LedgerEntry } from "./models/ledger";
 
 const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "PostgresSQL",
-    password: "PostgreSQL",
-    database: "wallet_app",
+    host: process.env.DATABASE_URL,
     synchronize: true,
     logging: false,
     entities: [User, Wallet, Transaction, LedgerEntry],
